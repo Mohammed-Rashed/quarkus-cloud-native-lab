@@ -1,9 +1,7 @@
 package com.mohammed.order;
 
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
+import com.mohammed.order.dto.CreateOrderDto;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
 @Path("/orders")
@@ -28,5 +26,16 @@ public class OrderResource {
     public Order getOrderById(@PathParam("id") Long id) {
         Order order=new Order(id,"Product A",10);
         return order;
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Order createOrder(CreateOrderDto dto) {
+        return new Order(
+                1L,
+                dto.product,
+                dto.quantity
+        );
     }
 }
