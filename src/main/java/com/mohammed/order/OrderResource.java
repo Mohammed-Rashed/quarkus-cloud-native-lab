@@ -2,6 +2,7 @@ package com.mohammed.order;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
@@ -19,5 +20,13 @@ public class OrderResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String getOrderStatus() {
         return "Order service is running";
+    }
+
+    @Path("/{id}")
+    @GET()
+    @Produces(MediaType.APPLICATION_JSON)
+    public Order getOrderById(@PathParam("id") Long id) {
+        Order order=new Order(id,"Product A",10);
+        return order;
     }
 }
