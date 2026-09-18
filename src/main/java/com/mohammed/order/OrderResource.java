@@ -17,15 +17,15 @@ public class OrderResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String getOrders() {
-        return "Orders API";
+    public List<OrderResponseDto> getOrders(@QueryParam("status") String status) {
+        return orderService.getOrders(status);
     }
 
     @Path("/status")
     @GET()
     @Produces(MediaType.APPLICATION_JSON)
-    public List<OrderResponseDto> getOrderStatus(@QueryParam("status") String status) {
-        return orderService.getOrders(status);
+    public String getOrderStatus() {
+        return "ORDERS WORK FINE";
     }
 
     @Path("/{id}")
