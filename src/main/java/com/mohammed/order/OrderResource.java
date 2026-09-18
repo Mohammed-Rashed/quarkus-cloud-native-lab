@@ -5,6 +5,8 @@ import com.mohammed.order.dto.OrderResponseDto;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
+import java.util.List;
+
 @Path("/orders")
 public class OrderResource {
 
@@ -22,8 +24,8 @@ public class OrderResource {
     @Path("/status")
     @GET()
     @Produces(MediaType.APPLICATION_JSON)
-    public String getOrderStatus() {
-        return "Order service is running";
+    public List<OrderResponseDto> getOrderStatus(@QueryParam("status") String status) {
+        return orderService.getOrders(status);
     }
 
     @Path("/{id}")
