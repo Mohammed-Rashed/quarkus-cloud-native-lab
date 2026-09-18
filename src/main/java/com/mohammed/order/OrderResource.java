@@ -1,11 +1,17 @@
 package com.mohammed.order;
 
 import com.mohammed.order.dto.CreateOrderDto;
+import com.mohammed.order.dto.OrderResponseDto;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
 @Path("/orders")
 public class OrderResource {
+
+    private final OrderService orderService;
+    public OrderResource(OrderService orderService) {
+        this.orderService = orderService;
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -31,11 +37,8 @@ public class OrderResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Order createOrder(CreateOrderDto dto) {
-        return new Order(
-                1L,
-                dto.product,
-                dto.quantity
-        );
+    public OrderResponseDto createOrder(CreateOrderDto dto) {
+        return orderService.create(dto);
+
     }
 }
