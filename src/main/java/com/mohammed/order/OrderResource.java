@@ -1,23 +1,46 @@
 package com.mohammed.order;
 
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import com.mohammed.order.dto.CreateOrderDto;
+import com.mohammed.order.dto.OrderResponseDto;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+
+import java.util.List;
 
 @Path("/orders")
 public class OrderResource {
 
+    private final OrderService orderService;
+    public OrderResource(OrderService orderService) {
+        this.orderService = orderService;
+    }
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String getOrders() {
-        return "Orders API";
+    public List<OrderResponseDto> getOrders(@QueryParam("status") String status) {
+        return orderService.getOrders(status);
     }
 
     @Path("/status")
     @GET()
     @Produces(MediaType.APPLICATION_JSON)
     public String getOrderStatus() {
-        return "Order service is running";
+        return "ORDERS WORK FINE";
+    }
+
+    @Path("/{id}")
+    @GET()
+    @Produces(MediaType.APPLICATION_JSON)
+    public Order getOrderById(@PathParam("id") Long id) {
+        Order order=new Order(id,"Product A",10);
+        return order;
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public OrderResponseDto createOrder(CreateOrderDto dto) {
+        return orderService.create(dto);
+
     }
 }
