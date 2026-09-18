@@ -2,11 +2,13 @@ package com.mohammed.order;
 
 import com.mohammed.order.dto.CreateOrderDto;
 import com.mohammed.order.dto.OrderResponseDto;
+import com.mohammed.order.exception.OrderNotFoundException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.validation.Valid;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @ApplicationScoped
 public class OrderService {
@@ -42,5 +44,12 @@ public class OrderService {
                 dto.quantity(),
                 "Pending"
         );
+    }
+
+    public OrderResponseDto getOrderById(Long id){
+        return orders.stream()
+                .filter(order -> order.id().equals(id))
+                .findFirst()
+                .orElseThrow(()-> new OrderNotFoundException(id));
     }
 }

@@ -4,8 +4,10 @@ import com.mohammed.order.dto.CreateOrderDto;
 import com.mohammed.order.dto.OrderResponseDto;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import java.util.List;
+import java.util.Optional;
 
 @Path("/orders")
 public class OrderResource {
@@ -31,9 +33,10 @@ public class OrderResource {
     @Path("/{id}")
     @GET()
     @Produces(MediaType.APPLICATION_JSON)
-    public Order getOrderById(@PathParam("id") Long id) {
-        Order order=new Order(id,"Product A",10);
-        return order;
+    public Response getOrderById(@PathParam("id") Long id) {
+        OrderResponseDto order= orderService.getOrderById(id);
+        return Response.ok(order).build();
+
     }
 
     @POST
