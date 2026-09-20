@@ -22,8 +22,11 @@ public class OrderResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<OrderResponseDto> getOrders(@QueryParam("status") String status) {
-        return orderService.getOrders(status);
+    public List<OrderResponseDto> getOrders(@QueryParam("status") String status,
+                                            @QueryParam("page") @DefaultValue("0") int page,
+                                            @QueryParam("size") @DefaultValue("10") int size
+    ) {
+        return orderService.getOrders(status,page,size);
     }
 
     @Path("/status")

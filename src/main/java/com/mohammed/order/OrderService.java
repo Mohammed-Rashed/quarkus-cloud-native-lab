@@ -19,15 +19,10 @@ public class OrderService {
     public OrderService(OrderRepository orderRepository) {
         this.orderRepository =  orderRepository;
     }
-    public List<OrderResponseDto> getOrders(String status) {
-        List<OrderResponseDto> orders = orderRepository.findByStatus(status);
+    public List<OrderResponseDto> getOrders(String status, int page, int size) {
+        List<OrderResponseDto> orders = orderRepository.getOrders(status,page,size);
         return orders;
-//        if (status == null) {
-//            return orders;
-//        }
-//        return orders.stream()
-//                .filter(order -> order.status().equalsIgnoreCase(status))
-//                .toList();
+
     }
 
     public OrderResponseDto create(@Valid CreateOrderDto dto){
