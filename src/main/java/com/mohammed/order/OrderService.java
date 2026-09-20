@@ -2,6 +2,7 @@ package com.mohammed.order;
 
 import com.mohammed.order.dto.CreateOrderDto;
 import com.mohammed.order.dto.OrderResponseDto;
+import com.mohammed.order.dto.PageResponseDto;
 import com.mohammed.order.dto.UpdateOrderDto;
 import com.mohammed.order.entity.OrderEntity;
 import com.mohammed.order.exception.OrderNotFoundException;
@@ -19,8 +20,8 @@ public class OrderService {
     public OrderService(OrderRepository orderRepository) {
         this.orderRepository =  orderRepository;
     }
-    public List<OrderResponseDto> getOrders(String status, int page, int size) {
-        List<OrderResponseDto> orders = orderRepository.getOrders(status,page,size);
+    public PageResponseDto<OrderResponseDto> getOrders(String status, int page, int size) {
+        PageResponseDto<OrderResponseDto> orders = orderRepository.findAllOrders(status,page,size);
         return orders;
 
     }

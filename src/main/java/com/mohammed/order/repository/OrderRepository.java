@@ -1,7 +1,9 @@
 package com.mohammed.order.repository;
 
 import com.mohammed.order.dto.OrderResponseDto;
+import com.mohammed.order.dto.PageResponseDto;
 import com.mohammed.order.entity.OrderEntity;
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -34,5 +36,40 @@ public class OrderRepository implements PanacheRepository<OrderEntity> {
         )
                 .page(page, size)
                 .list();
+    }
+
+    public PanacheQuery<OrderEntity> findOrders(String status) {
+
+        Sort sort = Sort.by("createdAt").descending();
+
+        if (status == null) {
+            return findAll(sort);
+        }
+
+        return find("status", sort, status);
+    }
+    public PageResponseDto<OrderResponseDto> findAllOrders(String status,int page, int size) {
+        PanacheQuery<OrderEntity> query =
+                findOrders(status);
+        long total = query.count();
+        List<OrderResponseDto> data = query
+                .page(page, size)
+                .list()
+                .stream()
+                .map(order -> new OrderResponseDto(
+                        order.id,
+                        order.product,
+                        order.quantity,
+                        order.status
+                ))
+                .toList();
+        int totalPages = (int) Math.ceil((double) total / size);
+        return new PageResponseDto<>(
+                data,
+                page,
+                size,
+                total,
+                totalPages
+        );
     }
 }

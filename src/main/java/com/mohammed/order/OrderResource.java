@@ -2,6 +2,7 @@ package com.mohammed.order;
 
 import com.mohammed.order.dto.CreateOrderDto;
 import com.mohammed.order.dto.OrderResponseDto;
+import com.mohammed.order.dto.PageResponseDto;
 import com.mohammed.order.dto.UpdateOrderDto;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -9,8 +10,6 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import java.util.List;
-import java.util.Optional;
 
 @Path("/orders")
 public class OrderResource {
@@ -22,9 +21,9 @@ public class OrderResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<OrderResponseDto> getOrders(@QueryParam("status") String status,
-                                            @QueryParam("page") @DefaultValue("0") int page,
-                                            @QueryParam("size") @DefaultValue("10") int size
+    public PageResponseDto<OrderResponseDto> getOrders(@QueryParam("status") String status,
+                                               @QueryParam("page") @DefaultValue("0") int page,
+                                               @QueryParam("size") @DefaultValue("10") int size
     ) {
         return orderService.getOrders(status,page,size);
     }
