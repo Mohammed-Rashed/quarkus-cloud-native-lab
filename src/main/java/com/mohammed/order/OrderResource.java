@@ -2,6 +2,9 @@ package com.mohammed.order;
 
 import com.mohammed.order.dto.CreateOrderDto;
 import com.mohammed.order.dto.OrderResponseDto;
+import com.mohammed.order.dto.UpdateOrderDto;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -39,11 +42,22 @@ public class OrderResource {
 
     }
 
+    @Transactional
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public OrderResponseDto createOrder(CreateOrderDto dto) {
+    public OrderResponseDto createOrder( @Valid CreateOrderDto dto) {
         return orderService.create(dto);
+
+    }
+
+    @Path("/{id}")
+    @Transactional
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public OrderResponseDto updateOrder( @Valid UpdateOrderDto dto,@PathParam("id") Long id) {
+        return orderService.update(dto,id);
 
     }
 }
