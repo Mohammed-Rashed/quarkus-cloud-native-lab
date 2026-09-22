@@ -6,6 +6,7 @@ import com.mohammed.order.exception.OrderNotFoundException;
 import com.mohammed.order.repository.OrderRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 
 import java.util.Optional;
 
@@ -65,7 +66,16 @@ class OrderServiceTest {
                 new CreateOrderDto("MacBook Pro", 2);
 
         orderService.create(dto);
-        verify(orderRepository).persist(any(OrderEntity.class));
+
+        ArgumentCaptor<OrderEntity> captor =
+                ArgumentCaptor.forClass(OrderEntity.class);
+
+        verify(orderRepository).persist(captor.capture());
+        OrderEntity savedOrder = captor.getValue();
+
+        assertEquals("MacBook Pro", savedOrder.product);
+        assertEquals(2, savedOrder.quantity);
+        assertEquals("PENDING", savedOrder.status);
 
     }
 }
