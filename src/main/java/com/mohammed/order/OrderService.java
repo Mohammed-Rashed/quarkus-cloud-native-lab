@@ -7,6 +7,7 @@ import com.mohammed.order.dto.UpdateOrderDto;
 import com.mohammed.order.entity.OrderEntity;
 import com.mohammed.order.exception.OrderNotFoundException;
 import com.mohammed.order.messaging.OrderEventProducer;
+import com.mohammed.order.messaging.event.OrderCreatedEvent;
 import com.mohammed.order.repository.OrderRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.validation.Valid;
@@ -35,8 +36,14 @@ public class OrderService {
         order.quantity=dto.quantity();
         order.status = "PENDING";
         orderRepository.persist(order);
+        OrderCreatedEvent event = new OrderCreatedEvent(
+                order.id,
+                order.product,
+                order.quantity,
+                order.status
+        );
         orderEventProducer.send(
-                "Order created: " + order.id
+                event
         );
         return new OrderResponseDto(
                 order.id,
