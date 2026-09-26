@@ -6,6 +6,8 @@ import com.mohammed.order.dto.PageResponseDto;
 import com.mohammed.order.dto.UpdateOrderDto;
 import com.mohammed.order.entity.OrderEntity;
 import com.mohammed.order.exception.OrderNotFoundException;
+import com.mohammed.order.messaging.OrderEventProducer;
+import com.mohammed.order.messaging.event.OrderCreatedEvent;
 import com.mohammed.order.repository.OrderRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.validation.Valid;
@@ -17,8 +19,10 @@ import java.util.Optional;
 @ApplicationScoped
 public class OrderService {
     private final OrderRepository orderRepository;
-    public OrderService(OrderRepository orderRepository) {
+    private final OrderEventProducer orderEventProducer;
+    public OrderService(OrderRepository orderRepository,OrderEventProducer orderEventProducer) {
         this.orderRepository =  orderRepository;
+        this.orderEventProducer = orderEventProducer;
     }
     public PageResponseDto<OrderResponseDto> getOrders(String status, int page, int size) {
         PageResponseDto<OrderResponseDto> orders = orderRepository.findAllOrders(status,page,size);
@@ -32,6 +36,15 @@ public class OrderService {
         order.quantity=dto.quantity();
         order.status = "PENDING";
         orderRepository.persist(order);
+        OrderCreatedEvent event = new OrderCreatedEvent(
+                order.id,
+                order.product,
+                order.quantity,
+                order.status
+        );
+        orderEventProducer.send(
+                event
+        );
         return new OrderResponseDto(
                 order.id,
                 order.product,

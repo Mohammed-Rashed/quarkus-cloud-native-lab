@@ -3,6 +3,7 @@ package com.mohammed.order;
 import com.mohammed.order.dto.CreateOrderDto;
 import com.mohammed.order.entity.OrderEntity;
 import com.mohammed.order.exception.OrderNotFoundException;
+import com.mohammed.order.messaging.OrderEventProducer;
 import com.mohammed.order.repository.OrderRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,12 +18,13 @@ import static org.mockito.Mockito.*;
 class OrderServiceTest {
     private OrderRepository orderRepository;
     private OrderService orderService;
+    private OrderEventProducer orderEventProducer;
     @BeforeEach
     void setup() {
 
         orderRepository = mock(OrderRepository.class);
 
-        orderService = new OrderService(orderRepository);
+        orderService = new OrderService(orderRepository,orderEventProducer);
     }
     @Test
     void shouldReturnOrderWhenOrderExists() {
