@@ -15,6 +15,7 @@ import jakarta.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @ApplicationScoped
 public class OrderService {
@@ -37,6 +38,7 @@ public class OrderService {
         order.status = "PENDING";
         orderRepository.persist(order);
         OrderCreatedEvent event = new OrderCreatedEvent(
+                UUID.randomUUID(),
                 order.id,
                 order.product,
                 order.quantity,

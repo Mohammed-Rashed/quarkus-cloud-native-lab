@@ -15,7 +15,7 @@ public class OrderEventProducer {
         System.out.println("Sending Kafka event: " + event);
         emitter.send(
                 Record.of(
-                        event.orderId().toString(),
+                        event.eventId().toString(),
                         event
                 )
         );
