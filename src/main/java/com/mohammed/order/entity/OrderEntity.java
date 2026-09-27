@@ -23,6 +23,9 @@ public class OrderEntity {
     @Column(nullable = false)
     public String status;
 
+    @Column(name = "product_id", nullable = false)
+    public Long productId;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
     public LocalDateTime createdAt;

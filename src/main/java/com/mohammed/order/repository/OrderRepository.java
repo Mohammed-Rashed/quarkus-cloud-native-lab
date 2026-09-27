@@ -17,6 +17,7 @@ public class OrderRepository implements PanacheRepository<OrderEntity> {
                 .map(order -> new OrderResponseDto(
                         order.id,
                         order.product,
+                        order.productId,
                         order.quantity,
                         order.status
                 )).toList();
@@ -59,6 +60,7 @@ public class OrderRepository implements PanacheRepository<OrderEntity> {
                 .map(order -> new OrderResponseDto(
                         order.id,
                         order.product,
+                        order.productId,
                         order.quantity,
                         order.status
                 ))

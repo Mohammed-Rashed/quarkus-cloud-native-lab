@@ -65,7 +65,7 @@ class OrderServiceTest {
     @Test
     void shouldCreateOrder() {
         CreateOrderDto dto =
-                new CreateOrderDto("MacBook Pro", 2);
+                new CreateOrderDto(101L,"MacBook Pro", 2);
 
         orderService.create(dto);
 

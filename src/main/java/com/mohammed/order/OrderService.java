@@ -12,9 +12,11 @@ import com.mohammed.order.repository.OrderRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.validation.Valid;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @ApplicationScoped
 public class OrderService {
@@ -34,11 +36,17 @@ public class OrderService {
        OrderEntity order = new OrderEntity();
         order.product=dto.product();
         order.quantity=dto.quantity();
+        order.productId=dto.productId();
         order.status = "PENDING";
         orderRepository.persist(order);
         OrderCreatedEvent event = new OrderCreatedEvent(
+                UUID.randomUUID(),
+                "ORDER_CREATED",
+                Instant.now(),
+                2,
                 order.id,
                 order.product,
+                order.productId,
                 order.quantity,
                 order.status
         );
@@ -48,6 +56,7 @@ public class OrderService {
         return new OrderResponseDto(
                 order.id,
                 order.product,
+                order.productId,
                 order.quantity,
                 order.status
         );
@@ -59,6 +68,7 @@ public class OrderService {
         return new OrderResponseDto(
                 order.id,
                 order.product,
+                order.productId,
                 order.quantity,
                 order.status
         );
@@ -70,9 +80,11 @@ public class OrderService {
         order.product=dto.product();
         order.quantity=dto.quantity();
         order.status = dto.status();
+        order.productId=dto.productId();
         return new OrderResponseDto(
                 order.id,
                 order.product,
+                order.productId,
                 order.quantity,
                 order.status
         );
