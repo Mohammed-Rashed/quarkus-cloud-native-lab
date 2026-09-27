@@ -2,8 +2,12 @@ package com.mohammed.order.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record UpdateOrderDto(
+        @NotNull(message = "Product ID is required")
+        Long productId,
+
         @NotBlank(message = "Product is required")
         String product,
 
