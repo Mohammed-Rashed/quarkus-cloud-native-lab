@@ -10,6 +10,7 @@ import com.mohammed.order.messaging.OrderEventProducer;
 import com.mohammed.order.messaging.event.OrderCreatedEvent;
 import com.mohammed.order.repository.OrderRepository;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 import java.time.Instant;
@@ -88,5 +89,14 @@ public class OrderService {
                 order.quantity,
                 order.status
         );
+    }
+
+    @Transactional
+    public void confirmOrder(Long orderId) {
+
+        OrderEntity order = orderRepository.findByIdOptional(orderId)
+                .orElseThrow(() -> new OrderNotFoundException(orderId));
+
+        order.status = "CONFIRMED";
     }
 }
