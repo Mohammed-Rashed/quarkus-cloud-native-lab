@@ -99,4 +99,12 @@ public class OrderService {
 
         order.status = "CONFIRMED";
     }
+    @Transactional
+    public void rejectOrder(Long orderId) {
+
+        OrderEntity order = orderRepository.findByIdOptional(orderId)
+                .orElseThrow(() -> new OrderNotFoundException(orderId));
+
+        order.status = "REJECTED";
+    }
 }

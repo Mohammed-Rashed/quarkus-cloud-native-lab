@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mohammed.order.OrderService;
 import com.mohammed.order.messaging.event.OrderCreatedEvent;
+import com.mohammed.order.messaging.event.StockRejectedEvent;
 import com.mohammed.order.messaging.event.StockReservedEvent;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
@@ -23,9 +24,29 @@ public class InventoryEventConsumer {
     public void consume(String message) throws Exception  {
         JsonNode json = objectMapper.readTree(message);
         String eventType = json.get("eventType").asText();
+        if ("STOCK_RESERVED".equals(eventType)) {
 
-        System.out.println(
-                "Inventory event type: " + eventType
-        );
+            StockReservedEvent event = objectMapper.readValue(
+                    message,
+                    StockReservedEvent.class
+            );
+
+            orderService.confirmOrder(event.orderId());
+
+        }else if ("STOCK_REJECTED".equals(eventType)) {
+
+            StockRejectedEvent event = objectMapper.readValue(
+                    message,
+                    StockRejectedEvent.class
+            );
+
+            orderService.rejectOrder(event.orderId());
+
+            System.out.println(
+                    "Order rejected: " + event.orderId()
+                            + ", reason: " + event.reason()
+            );
+        }
+
     }
 }
