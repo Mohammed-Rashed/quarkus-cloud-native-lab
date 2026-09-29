@@ -5,6 +5,7 @@ import com.mohammed.order.entity.OrderEntity;
 import com.mohammed.order.exception.OrderNotFoundException;
 import com.mohammed.order.messaging.OrderEventProducer;
 import com.mohammed.order.repository.OrderRepository;
+import com.mohammed.order.service.OrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;

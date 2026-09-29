@@ -2,8 +2,7 @@ package com.mohammed.order.messaging;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mohammed.order.OrderService;
-import com.mohammed.order.messaging.event.OrderCreatedEvent;
+import com.mohammed.order.service.OrderService;
 import com.mohammed.order.messaging.event.StockRejectedEvent;
 import com.mohammed.order.messaging.event.StockReservedEvent;
 import com.mohammed.order.repository.ProcessedEventRepository;
