@@ -4,6 +4,7 @@ import com.mohammed.order.dto.CreateOrderDto;
 import com.mohammed.order.dto.OrderResponseDto;
 import com.mohammed.order.dto.PageResponseDto;
 import com.mohammed.order.dto.UpdateOrderDto;
+import com.mohammed.order.service.OrderService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;

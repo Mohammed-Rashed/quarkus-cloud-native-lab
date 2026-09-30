@@ -1,4 +1,4 @@
-package com.mohammed.order;
+package com.mohammed.order.service;
 
 import com.mohammed.order.dto.CreateOrderDto;
 import com.mohammed.order.dto.OrderResponseDto;
@@ -14,9 +14,6 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @ApplicationScoped
